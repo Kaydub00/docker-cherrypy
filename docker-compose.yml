@@ -1,0 +1,39 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: olarkrootpass
+      MYSQL_DATABASE: olark
+      MYSQL_USER: olark
+      MYSQL_PASSWORD: olarkpass
+
+  web:
+    build: .
+    dns: 8.8.8.8
+    expose:
+      - "8080"
+    depends_on:
+      - db
+    restart: always
+    links:
+      - db
+    environment:
+      APP_DB_PASSWORD: olarkpass
+      APP_DB_USER: olark
+      APP_DB_NAME: olark
+      APP_DB_HOST: db:3306
+
+  haproxy:
+    image: dockercloud/haproxy:latest
+    links:
+      - web
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+    
