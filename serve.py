@@ -31,12 +31,9 @@ class Server(object):
     sys.path.insert(0, self.base_dir)
 
     #import services
-    from webapp.messages import RestMessages
-    events = RestMessages()
-
-    from webapp.stats import JsonStats
-    stats = JsonStats() 
-
+    #from webapp.messages import RestMessages
+    #events = RestMessages()
+    
     #configure sqlalchemy DB plugin 
     from lib.data.saplugin import SAEnginePlugin
     SAEnginePlugin(cherrypy.engine, cherrypy.config['Database']['dbdriver'] + "://" + cherrypy.config['Database']['dbuser'] + ":" + cherrypy.config['Database']['dbpassword'] + "@" + cherrypy.config['Database']['dbhost'] + "/" + cherrypy.config['Database']['dbname']).subscribe()
@@ -54,8 +51,7 @@ class Server(object):
       }
     }
     
-    app = cherrypy.tree.mount(events, '/events',conf)
-    app = cherrypy.tree.mount(stats, '/stats.json',conf)
+    #app = cherrypy.tree.mount(events, '/events',conf)
 
 
   def run(self):
