@@ -6,10 +6,10 @@ services:
       - "./.data/db:/var/lib/mysql"
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: olarkrootpass
-      MYSQL_DATABASE: olark
-      MYSQL_USER: olark
-      MYSQL_PASSWORD: olarkpass
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
 
   web:
     build: .
@@ -22,9 +22,9 @@ services:
     links:
       - db
     environment:
-      APP_DB_PASSWORD: olarkpass
-      APP_DB_USER: olark
-      APP_DB_NAME: olark
+      APP_DB_PASSWORD: pass
+      APP_DB_USER: user
+      APP_DB_NAME: db
       APP_DB_HOST: db:3306
 
   haproxy:
